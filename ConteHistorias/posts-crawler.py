@@ -31,7 +31,10 @@ class BlogSpider(scrapy.Spider):
                 'prefix': post_prefix,
                 'name': post_name
             },
+            'post_image_url': response.css('article > div.featured-image > span > a > img::attr(data-src)').extract_first(),
             'minutes_to_read': int(response.css('span.wtr-time-number::text').extract_first()),
             'author': response.css('span.author > a::text').extract_first(),
-            'publish_date': datetime.date(publish_year, publish_month, publish_day)
+            'publish_date': datetime.date(publish_year, publish_month, publish_day),
+            'categories': response.css('span.cat-links > a::text').extract(),
+            'tags': response.css('span.tags-links > a::text').extract() 
         }
